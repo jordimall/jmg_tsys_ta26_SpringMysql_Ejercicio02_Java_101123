@@ -3,17 +3,13 @@
  */
 package com.example.demo.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
@@ -34,12 +30,9 @@ public class Proyecto {
 	@Column(name = "Horas")
 	private int horas;
 
-	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "asignados_A", joinColumns = { @JoinColumn(name = "Cientifico") }, inverseJoinColumns = {
-			@JoinColumn(name = "Proyecto") })
-
+	@ManyToMany(mappedBy = "proyectos")
 	@JsonIgnoreProperties("proyectos")
-	private List<Cientifico> cientificos = new ArrayList<>();
+	private List<Cientifico> cientificos;
 
 	/**
 	 * 
@@ -51,13 +44,11 @@ public class Proyecto {
 	 * @param id
 	 * @param nombre
 	 * @param horas
-	 * @param cientificos
 	 */
-	public Proyecto(String id, String nombre, int horas, List<Cientifico> cientificos) {
+	public Proyecto(String id, String nombre, int horas) {
 		this.id = id;
 		this.nombre = nombre;
 		this.horas = horas;
-		this.cientificos = cientificos;
 	}
 
 	/**
